@@ -1,16 +1,14 @@
-import { Router } from "express";
 import { Container } from "@/shared/container";
-import { AlbumController } from "./album.controller";
+import { queryIdsDto } from "@/shared/dtos/query.dto";
 import { authMiddleware } from "@/shared/middlewares/jwt-handler.middleware";
 import { validateRequest } from "@/shared/middlewares/validation-request.middleware";
-import { CreateAlbumRequest } from "./album.dto";
+import { Router } from "express";
+import { AlbumController } from "./album.controller";
+import { paramIdDto } from "@/shared/dtos/params.dto";
 
 export const albumRoutes = Router();
 
 const albumController = Container.resolve<AlbumController>("AlbumController");
 
-albumRoutes.post("/", authMiddleware, validateRequest(CreateAlbumRequest), albumController.create);
-albumRoutes.get("/", authMiddleware, albumController.findAll);
-albumRoutes.get("/:id", authMiddleware, albumController.findById);
-albumRoutes.put("/:id", authMiddleware, albumController.update);
-albumRoutes.delete("/:id", authMiddleware, albumController.delete);
+albumRoutes.get("/:id", authMiddleware, validateRequest(paramIdDto), albumController.findById);
+albumRoutes.get("/", authMiddleware, validateRequest(queryIdsDto), albumController.findManyByIds);

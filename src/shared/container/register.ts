@@ -7,6 +7,9 @@ import { AuthService } from "@/modules/auth/auth.service"
 import { UserService } from "@/modules/user/user.service"
 import { AuthController } from "@/modules/auth/auth.controller"
 import { UserController } from "@/modules/user/user.controller"
+import { AlbumController } from "@/modules/album/album.controller"
+import { AlbumService } from "@/modules/album/album.service"
+import { SpotifyHttpGateway } from "../infra/gateways/spotify-http.gateway"
 
 export const registerDependencies = () => {
     const green = '\x1b[32m'
@@ -14,6 +17,11 @@ export const registerDependencies = () => {
     const bold = '\x1b[1m'
 
     console.log(`${green}${bold}[Dependency Container]${reset} ${green}Initializing...${reset}\n`)
+
+    // Gateways
+    console.log(`${green}${bold}[Gateways]${reset}`)
+    Container.register("SpotifyHttpGateway", () => new SpotifyHttpGateway())
+    console.log(`${green}  ✓ SpotifyHttpGateway${reset}\n`)
 
     // Repositories
     console.log(`${green}${bold}[Repositories]${reset}`)
@@ -48,6 +56,11 @@ export const registerDependencies = () => {
     ))
     console.log(`${green}  ✓ UserService${reset}`)
 
+    Container.register("AlbumService", () => new AlbumService(
+        Container.resolve("SpotifyHttpGateway")
+    ))
+    console.log(`${green}  ✓ AlbumService${reset}`)
+
     // Controllers
     console.log(`\n${green}${bold}[Controllers]${reset}`)
     Container.register("AuthController", () => new AuthController(
@@ -60,6 +73,11 @@ export const registerDependencies = () => {
         Container.resolve("UserService")
     ))
     console.log(`${green}  ✓ UserController${reset}`)
+
+    Container.register("AlbumController", () => new AlbumController(
+        Container.resolve("AlbumService")
+    ))
+    console.log(`${green}  ✓ AlbumController${reset}`)
 
     console.log(`\n${green}${bold}[Dependency Container]${reset} ${green}Successfully initialized!${reset}\n`)
 }

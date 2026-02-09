@@ -2,7 +2,7 @@ import { z } from "zod";
 import { Request } from "express";
 
 // Schema para validação completa (usado no middleware de validação)
-export const paramIdSchema = z.object({
+export const paramIdDto = z.object({
     params: z.object({
         id: z.string()
     })

@@ -1,19 +1,13 @@
 import createHttpError from "http-errors";
-import { AlbumRepository } from "./album.repository";
-import { CreateAlbumDtoType } from "./album.dto";
+import { SpotifyGateway } from "@/shared/gateways/spotify.gateway";
 
 export class AlbumService {
     constructor(
-        private readonly albumRepository: AlbumRepository
+        private readonly spotifyGateway: SpotifyGateway
     ) {}
 
-    create = async (data: CreateAlbumDtoType) => {
-        const album = await this.albumRepository.create(data);
-        return album;
-    };
-
     findById = async (id: string) => {
-        const album = await this.albumRepository.findById(id);
+        const album = await this.spotifyGateway.getAlbum(id);
         
         if (!album) {
             throw createHttpError.NotFound("Album not found");
@@ -22,21 +16,13 @@ export class AlbumService {
         return album;
     };
 
-    findAll = async () => {
-        return this.albumRepository.findAll();
-    };
-
-    update = async (id: string, data: Partial<CreateAlbumDtoType>) => {
-        const album = await this.albumRepository.update(id, data);
+    findManyByIds = async (ids: string[]) => {
+        const albums = await this.spotifyGateway.getAlbums(ids);
         
-        if (!album) {
+        if (!albums) {
             throw createHttpError.NotFound("Album not found");
         }
         
-        return album;
-    };
-
-    delete = async (id: string) => {
-        await this.albumRepository.delete(id);
+        return albums;
     };
 }

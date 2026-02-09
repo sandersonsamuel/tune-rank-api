@@ -1,7 +1,7 @@
 services:
     mongo:
         image: mongo:latest
-        container_name: mongo
+        container_name: tune_rank_api_mongo
         ports:
             - "27017:27017"
         env_file:

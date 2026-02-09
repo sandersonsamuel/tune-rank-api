@@ -8,6 +8,10 @@ const envSchema = z.object({
     PORT: z.string().default("3000").transform((port) => parseInt(port)),
     JWT_SECRET: z.string().min(1),
     COOKIE_SECRET: z.string().min(1),
+    SPOTIFY_CLIENT_ID: z.string().min(1),
+    SPOTIFY_CLIENT_SECRET: z.string().min(1),
+    SPOTIFY_BASE_URL: z.string().default("https://api.spotify.com/v1"),
+    SPOTIFY_AUTH_URL: z.string().default("https://accounts.spotify.com/api/token"),
 })
 
 export const env = {
@@ -15,6 +19,10 @@ export const env = {
     PORT: envSchema.parse(process.env).PORT,
     JWT_SECRET: envSchema.parse(process.env).JWT_SECRET,
     COOKIE_SECRET: envSchema.parse(process.env).COOKIE_SECRET,
+    SPOTIFY_CLIENT_ID: envSchema.parse(process.env).SPOTIFY_CLIENT_ID,
+    SPOTIFY_CLIENT_SECRET: envSchema.parse(process.env).SPOTIFY_CLIENT_SECRET,
+    SPOTIFY_BASE_URL: envSchema.parse(process.env).SPOTIFY_BASE_URL,
+    SPOTIFY_AUTH_URL: envSchema.parse(process.env).SPOTIFY_AUTH_URL,
 }
 console.log("\nLoaded env:", env)
 console.log("\n")
