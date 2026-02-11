@@ -17,12 +17,12 @@ export class TrackService {
     };
 
     findManyByIds = async (ids: string[]) => {
-        const tracks = await this.spotifyGateway.getTracks(ids);
+        const data = await this.spotifyGateway.getTracks(ids);
         
-        if (!tracks) {
+        if (!data) {
             throw createHttpError.NotFound("Tracks not found");
         }
         
-        return tracks;
+        return data.tracks;
     };
 }

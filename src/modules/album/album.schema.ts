@@ -10,7 +10,7 @@ export const SpotifyImageSchema = z.object({
     width: z.number()
 });
 
-export const SpotifyArtistSchema = z.object({
+export const SpotifyArtistInAlbumSchema = z.object({
     external_urls: SpotifyExternalUrlsSchema,
     href: z.string(),
     id: z.string(),
@@ -20,20 +20,11 @@ export const SpotifyArtistSchema = z.object({
 });
 
 export const SpotifyTrackItemInAlbumSchema = z.object({
-    artists: z.array(SpotifyArtistSchema),
-    available_markets: z.array(z.string()),
-    disc_number: z.number(),
+    artists: z.array(SpotifyArtistInAlbumSchema),
     duration_ms: z.number(),
-    explicit: z.boolean(),
-    external_urls: SpotifyExternalUrlsSchema,
-    href: z.string(),
     id: z.string(),
     name: z.string(),
-    preview_url: z.any(),
-    track_number: z.number(),
-    type: z.string(),
-    uri: z.string(),
-    is_local: z.boolean()
+    uri: z.string()
 });
 
 export const AlbumTracksSchema = z.object({
@@ -60,7 +51,7 @@ export const SpotifyAlbumSchema = z.object({
     type: z.string(),
     uri: z.string(),
     tracks: AlbumTracksSchema,
-    artists: z.array(SpotifyArtistSchema)
+    artists: z.array(SpotifyArtistInAlbumSchema)
 });
 
 export const SpotifyAlbumSearchResponseSchema = z.object({

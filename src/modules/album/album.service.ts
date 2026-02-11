@@ -17,12 +17,12 @@ export class AlbumService {
     };
 
     findManyByIds = async (ids: string[]) => {
-        const albums = await this.spotifyGateway.getAlbums(ids);
+        const data = await this.spotifyGateway.getAlbums(ids);
         
-        if (!albums) {
+        if (!data) {
             throw createHttpError.NotFound("Album not found");
         }
         
-        return albums;
+        return data.albums
     };
 }
