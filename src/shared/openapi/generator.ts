@@ -7,6 +7,8 @@ import "./registry/track.registry";
 import "./registry/artist.registry";
 import "./registry/rating.registry";
 import "./registry/like.registry";
+import "./registry/search.registry";
+import "./registry/user.registry";
 
 export function generateOpenApiDocument() {
   const generator = new OpenApiGeneratorV3(registry.definitions);

@@ -5,12 +5,57 @@ import { errorSchema } from "@/schemas/errors/error.zod.schema";
 import { successSchema } from "@/schemas/success";
 
 registry.register("CreateUserDto", CreateUserDto);
-
 registry.register("LoginUserDto", LoginUserDto);
 
 registry.registerPath({
     method: "post",
+    path: "/auth/register",
+    summary: "Registrar novo usuário",
+    description: "Cria uma nova conta de usuário no sistema",
+    tags: ["Auth"],
+    request: {
+        body: {
+            content: {
+                "application/json": {
+                    schema: CreateUserDto
+                }
+            }
+        }
+    },
+    responses: {
+        201: {
+            description: "Usuário registrado com sucesso",
+            content: {
+                "application/json": {
+                    schema: CreateUserDto
+                }
+            }
+        },
+        400: {
+            description: "Dados inválidos ou usuário já existe",
+            content: {
+                "application/json": {
+                    schema: validationErrorSchema
+                }
+            }
+        },
+        500: {
+            description: "Erro interno do servidor",
+            content: {
+                "application/json": {
+                    schema: errorSchema
+                }
+            }
+        },
+    }
+});
+
+registry.registerPath({
+    method: "post",
     path: "/auth/login",
+    summary: "Fazer login",
+    description: "Autentica o usuário e retorna cookies com tokens de acesso e refresh",
+    tags: ["Auth"],
     request: {
         body: {
             content: {
@@ -20,12 +65,9 @@ registry.registerPath({
             }
         }
     },
-    summary: "Login",
-    description: "Login",
-    tags: ["Auth"],
     responses: {
         200: {
-            description: "Login successful",
+            description: "Login realizado com sucesso - Cookies definidos com accessToken e refreshToken",
             content: {
                 "application/json": {
                     schema: successSchema
@@ -33,15 +75,7 @@ registry.registerPath({
             }
         },
         400: {
-            description: "Invalid body request",
-            content: {
-                "application/json": {
-                    schema: validationErrorSchema
-                }
-            }
-        },
-        401: {
-            description: "Unauthorized",
+            description: "Senha inválida ou dados de requisição inválidos",
             content: {
                 "application/json": {
                     schema: errorSchema
@@ -49,7 +83,15 @@ registry.registerPath({
             }
         },
         404: {
-            description: "Not found",
+            description: "Usuário não encontrado",
+            content: {
+                "application/json": {
+                    schema: errorSchema
+                }
+            }
+        },
+        500: {
+            description: "Erro interno do servidor",
             content: {
                 "application/json": {
                     schema: errorSchema
@@ -57,68 +99,17 @@ registry.registerPath({
             }
         },
     }
-})
-
-registry.registerPath({
-    method: "post",
-    path: "/auth/register",
-    request: {
-        body: {
-            content: {
-                "application/json": {
-                    schema: CreateUserDto
-                }
-            }
-        }
-    },
-    summary: "Register",
-    description: "Register",
-    tags: ["Auth"],
-    responses: {
-        200: {
-            description: "Register successful",
-            content: {
-                "application/json": {
-                    schema: CreateUserDto
-                }
-            }
-        },
-        400: {
-            description: "Invalid body request",
-            content: {
-                "application/json": {
-                    schema: validationErrorSchema
-                }
-            }
-        },
-        401: {
-            description: "Unauthorized",
-            content: {
-                "application/json": {
-                    schema: errorSchema
-                }
-            }
-        },
-        404: {
-            description: "Not found",
-            content: {
-                "application/json": {
-                    schema: errorSchema
-                }
-            }
-        },
-    }
-})
+});
 
 registry.registerPath({
     method: "post",
     path: "/auth/logout",
-    summary: "Logout",
-    description: "Logout",
+    summary: "Fazer logout",
+    description: "Encerra a sessão do usuário e remove os cookies de autenticação",
     tags: ["Auth"],
     responses: {
         200: {
-            description: "Logout successful",
+            description: "Logout realizado com sucesso",
             content: {
                 "application/json": {
                     schema: successSchema
@@ -126,23 +117,15 @@ registry.registerPath({
             }
         },
         401: {
-            description: "Unauthorized",
+            description: "Não autenticado - Token inválido ou expirado",
             content: {
                 "application/json": {
                     schema: errorSchema
                 }
             }
         },
-        400:{
-            description: "Invalid body request",
-            content: {
-                "application/json": {
-                    schema: validationErrorSchema
-                }
-            }
-        },
-        404: {
-            description: "Not found",
+        500: {
+            description: "Erro interno do servidor",
             content: {
                 "application/json": {
                     schema: errorSchema
@@ -150,17 +133,17 @@ registry.registerPath({
             }
         },
     }
-})
+});
 
 registry.registerPath({
     method: "post",
     path: "/auth/refresh",
-    summary: "Refresh",
-    description: "Refresh access token",
+    summary: "Renovar token de acesso",
+    description: "Gera um novo accessToken a partir do refreshToken armazenado nos cookies",
     tags: ["Auth"],
     responses: {
         200: {
-            description: "Refresh successful",
+            description: "Token renovado com sucesso - Novo cookie accessToken definido",
             content: {
                 "application/json": {
                     schema: successSchema
@@ -168,23 +151,23 @@ registry.registerPath({
             }
         },
         401: {
-            description: "Unauthorized",
+            description: "Não autenticado - Token inválido, expirado ou sessão não pertence ao usuário",
             content: {
                 "application/json": {
                     schema: errorSchema
-                }
-            }
-        },
-        400:{
-            description: "Invalid body request",
-            content: {
-                "application/json": {
-                    schema: validationErrorSchema
                 }
             }
         },
         404: {
-            description: "Not found",
+            description: "Sessão não encontrada",
+            content: {
+                "application/json": {
+                    schema: errorSchema
+                }
+            }
+        },
+        500: {
+            description: "Erro interno do servidor",
             content: {
                 "application/json": {
                     schema: errorSchema
@@ -192,25 +175,50 @@ registry.registerPath({
             }
         },
     }
-})
+});
 
 registry.registerPath({
     method: "get",
     path: "/auth/me",
-    summary: "Me",
-    description: "Get current user",
+    summary: "Obter usuário autenticado",
+    description: "Retorna os dados do usuário autenticado a partir do token de acesso",
     tags: ["Auth"],
     responses: {
         200: {
-            description: "Get me successful",
+            description: "Dados do usuário retornados com sucesso",
             content: {
                 "application/json": {
-                    schema: successSchema
+                    schema: {
+                        type: "object",
+                        properties: {
+                            id: { type: "string" },
+                            name: { type: "string" },
+                            email: { type: "string" },
+                            createdAt: { type: "string" },
+                            updatedAt: { type: "string" },
+                        }
+                    }
+                }
+            }
+        },
+        400: {
+            description: "Usuário não encontrado",
+            content: {
+                "application/json": {
+                    schema: errorSchema
                 }
             }
         },
         401: {
-            description: "Unauthorized",
+            description: "Não autenticado - Token inválido ou expirado",
+            content: {
+                "application/json": {
+                    schema: errorSchema
+                }
+            }
+        },
+        500: {
+            description: "Erro interno do servidor",
             content: {
                 "application/json": {
                     schema: errorSchema
@@ -218,4 +226,4 @@ registry.registerPath({
             }
         },
     }
-})
+});

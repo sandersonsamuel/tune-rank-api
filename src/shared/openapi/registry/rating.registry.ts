@@ -6,15 +6,15 @@ import z from "zod/v4";
 import { registry } from "..";
 
 registry.register("RatingType", RatingTypeSchema);
-
 registry.register("CreateRatingDto", CreateRatingDto);
+registry.register("Rating", RatingSchema);
 
 registry.registerPath({
     method: "post",
     path: "/rating/create",
     tags: ["Rating"],
-    summary: "Create a new rating",
-    description: "Create a new rating",
+    summary: "Criar uma avaliação",
+    description: "Cria uma nova avaliação para um álbum ou faixa. Cada usuário pode avaliar um release apenas uma vez",
     request: {
         body: {
             content: {
@@ -26,7 +26,7 @@ registry.registerPath({
     },
     responses: {
         [StatusCodes.CREATED]: {
-            description: "Rating created successfully",
+            description: "Avaliação criada com sucesso",
             content: {
                 "application/json": {
                     schema: RatingSchema,
@@ -34,7 +34,7 @@ registry.registerPath({
             },
         },
         [StatusCodes.BAD_REQUEST]: {
-            description: "Invalid request",
+            description: "Dados de requisição inválidos",
             content: {
                 "application/json": {
                     schema: validationErrorSchema,
@@ -42,11 +42,34 @@ registry.registerPath({
             },
         },
         [StatusCodes.UNAUTHORIZED]: {
-            description: "Unauthorized",
+            description: "Não autenticado - Token inválido ou expirado",
             content: {
                 "application/json": {
                     schema: errorSchema,
-
+                },
+            },
+        },
+        [StatusCodes.NOT_FOUND]: {
+            description: "Usuário ou release (álbum/faixa) não encontrado",
+            content: {
+                "application/json": {
+                    schema: errorSchema,
+                },
+            },
+        },
+        [StatusCodes.CONFLICT]: {
+            description: "Você já avaliou este release",
+            content: {
+                "application/json": {
+                    schema: errorSchema,
+                },
+            },
+        },
+        [StatusCodes.INTERNAL_SERVER_ERROR]: {
+            description: "Erro interno do servidor",
+            content: {
+                "application/json": {
+                    schema: errorSchema,
                 },
             },
         },
@@ -57,14 +80,14 @@ registry.registerPath({
     method: "get",
     path: "/rating/user",
     tags: ["Rating"],
-    summary: "Get ratings by user",
-    description: "Get ratings by user",
+    summary: "Buscar avaliações por usuário",
+    description: "Retorna todas as avaliações de um usuário, agrupadas por álbuns e faixas, com os dados do Spotify incluídos",
     request: {
         query: GetRatingsByUserIdDto
     },
     responses: {
         [StatusCodes.OK]: {
-            description: "Ratings retrieved successfully",
+            description: "Avaliações retornadas com sucesso",
             content: {
                 "application/json": {
                     schema: {
@@ -73,13 +96,31 @@ registry.registerPath({
                             albums: {
                                 type: "array",
                                 items: {
-                                    $ref: "#/components/schemas/SpotifyAlbum"
+                                    type: "object",
+                                    properties: {
+                                        id: { type: "string" },
+                                        userId: { type: "string" },
+                                        releaseId: { type: "string" },
+                                        review: { type: "string" },
+                                        type: { type: "string", enum: ["ALBUM", "TRACK"] },
+                                        rating: { type: "number" },
+                                        album: { $ref: "#/components/schemas/SpotifyAlbum" }
+                                    }
                                 }
                             },
                             tracks: {
                                 type: "array",
                                 items: {
-                                    $ref: "#/components/schemas/SpotifyTrack"
+                                    type: "object",
+                                    properties: {
+                                        id: { type: "string" },
+                                        userId: { type: "string" },
+                                        releaseId: { type: "string" },
+                                        review: { type: "string" },
+                                        type: { type: "string", enum: ["ALBUM", "TRACK"] },
+                                        rating: { type: "number" },
+                                        track: { $ref: "#/components/schemas/SpotifyTrack" }
+                                    }
                                 }
                             }
                         }
@@ -88,7 +129,23 @@ registry.registerPath({
             },
         },
         [StatusCodes.UNAUTHORIZED]: {
-            description: "Unauthorized",
+            description: "Não autenticado - Token inválido ou expirado",
+            content: {
+                "application/json": {
+                    schema: errorSchema,
+                },
+            },
+        },
+        [StatusCodes.NOT_FOUND]: {
+            description: "Usuário não encontrado",
+            content: {
+                "application/json": {
+                    schema: errorSchema,
+                },
+            },
+        },
+        [StatusCodes.INTERNAL_SERVER_ERROR]: {
+            description: "Erro interno do servidor",
             content: {
                 "application/json": {
                     schema: errorSchema,
@@ -102,32 +159,40 @@ registry.registerPath({
     method: "get",
     path: "/rating/release/{id}",
     tags: ["Rating"],
-    summary: "Get rating by release ID",
-    description: "Get the authenticated user's rating for a specific release",
+    summary: "Buscar avaliação por release",
+    description: "Retorna a avaliação do usuário autenticado para um release específico (álbum ou faixa)",
     request: {
         params: z.object({
-            id: z.string().openapi({ description: "ID of the release (album or track)", example: "4aawyAB9vmqN3uQ7FjRGTy" })
+            id: z.string().openapi({ description: "ID do release (álbum ou faixa)", example: "4aawyAB9vmqN3uQ7FjRGTy" })
         })
     },
     responses: {
         [StatusCodes.OK]: {
-            description: "Rating retrieved successfully",
+            description: "Avaliação encontrada com sucesso",
             content: {
                 "application/json": {
                     schema: RatingSchema,
                 },
             },
         },
-        [StatusCodes.NOT_FOUND]: {
-            description: "Rating not found",
+        [StatusCodes.UNAUTHORIZED]: {
+            description: "Não autenticado - Token inválido ou expirado",
             content: {
                 "application/json": {
                     schema: errorSchema,
                 },
             },
         },
-        [StatusCodes.UNAUTHORIZED]: {
-            description: "Unauthorized",
+        [StatusCodes.NOT_FOUND]: {
+            description: "Avaliação não encontrada para este release",
+            content: {
+                "application/json": {
+                    schema: errorSchema,
+                },
+            },
+        },
+        [StatusCodes.INTERNAL_SERVER_ERROR]: {
+            description: "Erro interno do servidor",
             content: {
                 "application/json": {
                     schema: errorSchema,
@@ -136,4 +201,3 @@ registry.registerPath({
         },
     },
 });
-
