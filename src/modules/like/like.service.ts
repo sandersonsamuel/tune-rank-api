@@ -1,42 +1,26 @@
-import createHttpError from "http-errors";
 import { LikeRepository } from "./like.repository";
 import { CreateLikeDtoType } from "./like.dto";
+import { TrackService } from "../track/track.service";
+import createHttpError from "http-errors";
 
 export class LikeService {
     constructor(
-        private readonly likeRepository: LikeRepository
+        private readonly likeRepository: LikeRepository,
+        private readonly trackService: TrackService,
     ) {}
 
-    create = async (data: CreateLikeDtoType) => {
-        const like = await this.likeRepository.create(data);
-        return like;
-    };
+    create = async (data: CreateLikeDtoType, userId: string) => {
+        const track = await this.trackService.findById(data.releaseId);
 
-    findById = async (id: string) => {
-        const like = await this.likeRepository.findById(id);
-        
-        if (!like) {
-            throw createHttpError.NotFound("Like not found");
+        if (!track) {
+            throw new createHttpError.NotFound("Track not found");
         }
-        
+
+        const like = await this.likeRepository.create(data, userId);
         return like;
     };
-
-    findAll = async () => {
-        return this.likeRepository.findAll();
-    };
-
-    update = async (id: string, data: Partial<CreateLikeDtoType>) => {
-        const like = await this.likeRepository.update(id, data);
-        
-        if (!like) {
-            throw createHttpError.NotFound("Like not found");
-        }
-        
-        return like;
-    };
-
-    delete = async (id: string) => {
-        await this.likeRepository.delete(id);
+    
+    delete = async (userId: string, releaseId: string) => {
+        await this.likeRepository.delete(userId, releaseId);
     };
 }

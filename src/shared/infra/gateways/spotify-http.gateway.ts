@@ -1,9 +1,9 @@
-import { SpotifySearchResult } from "@/@types/spotify/search";
-import { SpotifyArtist } from "@/@types/spotify/artist";
-import { SpotifyTrack, SpotifyTrackSearchResponse } from "@/@types/spotify/track";
 import { env } from "@/configs/env";
 import { SpotifyGateway } from "@/shared/gateways/spotify.gateway";
 import { SpotifyAlbum, SpotifyAlbumSearchResponse } from "@/modules/album/album.domain";
+import { SpotifyTrack, SpotifyTrackSearchResponse } from "@/modules/track/track.domain";
+import { SpotifyArtist } from "@/modules/artist/artist.domain";
+import { SpotifySearchResult } from "@/modules/search/search.domain";
 
 
 export class SpotifyHttpGateway implements SpotifyGateway {
@@ -50,16 +50,16 @@ export class SpotifyHttpGateway implements SpotifyGateway {
         return this.request(`albums/${id}`)
     }
 
-    async getAlbums(ids: string[]): Promise<SpotifyAlbumSearchResponse> {
-        return this.request(`albums?ids=${ids.join(",")}`)
+    async getAlbums(ids: string[]): Promise<{ albums: SpotifyAlbum[] }> {
+        return this.request<{ albums: SpotifyAlbum[] }>(`albums?ids=${ids.join(",")}`)
     }
 
     async getTrack(id: string): Promise<SpotifyTrack> {
         return this.request(`tracks/${id}`)
     }
 
-    async getTracks(ids: string[]): Promise<SpotifyTrackSearchResponse> {
-        return this.request(`tracks?ids=${ids.join(",")}`)
+    async getTracks(ids: string[]): Promise<{ tracks: SpotifyTrack[] }> {
+        return this.request<{ tracks: SpotifyTrack[] }>(`tracks?ids=${ids.join(",")}`)
     }
 
     async getArtist(id: string): Promise<SpotifyArtist> {

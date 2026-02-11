@@ -19,6 +19,9 @@ import { ArtistController } from "@/modules/artist/artist.controller"
 import { MongoRatingRepository } from "@/modules/rating/infra/database/repositories/mongo.infra.repository"
 import { RatingService } from "@/modules/rating/rating.service"
 import { RatingController } from "@/modules/rating/rating.controller"
+import { MongoLikeRepository } from "@/modules/like/infra/database/mongoose/repositories/mongo.like.repository"
+import { LikeService } from "@/modules/like/like.service"
+import { LikeController } from "@/modules/like/like.controller"
 
 export const registerDependencies = () => {
     const green = '\x1b[32m'
@@ -42,6 +45,9 @@ export const registerDependencies = () => {
 
     Container.register("MongoRatingRepository", () => new MongoRatingRepository())
     console.log(`${green}  ✓ MongoRatingRepository${reset}`)
+
+    Container.register("MongoLikeRepository", () => new MongoLikeRepository())
+    console.log(`${green}  ✓ MongoLikeRepository${reset}`)
 
     // Providers
     console.log(`\n${green}${bold}[Providers]${reset}`)
@@ -96,6 +102,12 @@ export const registerDependencies = () => {
     ))
     console.log(`${green}  ✓ RatingService${reset}`)
 
+    Container.register("LikeService", () => new LikeService(
+        Container.resolve("MongoLikeRepository"),
+        Container.resolve("TrackService")
+    ))
+    console.log(`${green}  ✓ LikeService${reset}`)
+
     // Controllers
     console.log(`\n${green}${bold}[Controllers]${reset}`)
     Container.register("AuthController", () => new AuthController(
@@ -133,6 +145,11 @@ export const registerDependencies = () => {
         Container.resolve("RatingService")
     ))
     console.log(`${green}  ✓ RatingController${reset}`)
+
+    Container.register("LikeController", () => new LikeController(
+        Container.resolve("LikeService")
+    ))
+    console.log(`${green}  ✓ LikeController${reset}`)
 
     console.log(`\n${green}${bold}[Dependency Container]${reset} ${green}Successfully initialized!${reset}\n`)
 }

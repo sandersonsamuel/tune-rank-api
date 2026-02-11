@@ -14,12 +14,13 @@ export class MongoLikeRepository implements LikeRepository {
         
         return {
             id: created._id.toString(),
+            userId: created.userId,
             releaseId: created.releaseId,
             type: created.type,
         };
     }
 
-    async delete(id: string): Promise<void> {
-        await LikeModel.findByIdAndDelete(id);
+    async delete(userId: string, releaseId: string): Promise<void> {
+        await LikeModel.findOneAndDelete({ userId, releaseId });
     }
 }

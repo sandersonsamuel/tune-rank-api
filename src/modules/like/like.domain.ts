@@ -1,7 +1,4 @@
-import { RatingType } from "../rating/rating.domain";
+import z from "zod/v4";
+import { LikeSchema } from "./like.schema";
 
-export interface Like {
-    id: string;
-    releaseId: string;
-    type: RatingType
-}
+export type Like = z.infer<typeof LikeSchema>;

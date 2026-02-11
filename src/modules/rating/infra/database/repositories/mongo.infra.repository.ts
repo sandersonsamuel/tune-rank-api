@@ -2,7 +2,7 @@ import { Rating } from "@/modules/rating/rating.domain";
 import { CreateRatingDtoType } from "@/modules/rating/rating.dto";
 import { RatingRepository } from "@/modules/rating/rating.repository";
 import { RatingModel } from "../mongoose/models/rating.model";
-import { AppError } from "@/shared/errors/app.error";
+import createHttpError from "http-errors";
 
 export class MongoRatingRepository implements RatingRepository {
 
@@ -35,7 +35,7 @@ export class MongoRatingRepository implements RatingRepository {
         });
 
         if (!rating) {
-            throw new AppError("Failed to create rating", 500);
+            throw new createHttpError.InternalServerError("Failed to create rating");
         }
 
         return {
