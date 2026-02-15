@@ -1,5 +1,5 @@
 import express from "express";
-import "@/configs/env";
+import "./configs/env";
 import { errorHandler } from "./shared/middlewares/error-handler.middleware";
 import { handleInvalidJson } from "./shared/middlewares/handle-invalid-json.middleware";
 import cookieParser from "cookie-parser";
