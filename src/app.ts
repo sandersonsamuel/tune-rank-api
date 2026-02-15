@@ -7,7 +7,6 @@ import { env } from "./configs/env";
 import { registerDependencies } from "./shared/container/register";
 import cors from "cors";
 import { generateOpenApiDocument } from "./shared/openapi/generator";
-import { apiReference } from '@scalar/express-api-reference';
 
 const app = express();
 
@@ -24,12 +23,13 @@ app.get('/openapi.json', (_req, res) => {
   res.json(generateOpenApiDocument());
 });
 
-app.use(
-  '/docs',
-  apiReference({
+app.use('/docs', async (req, res) => {
+  const { apiReference } = await import('@scalar/express-api-reference');
+  const middleware = apiReference({
     url: '/openapi.json',
-  })
-);
+  });
+  return middleware(req, res);
+});
 
 async function setupRoutes() {
   registerDependencies();
