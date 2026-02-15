@@ -1,4 +1,4 @@
-import { TypedRequest } from "@/shared/dtos/request.dto";
+import { TypedRequest } from "../../shared/dtos/request.dto";
 import { Response } from "express";
 import { AlbumService } from "./album.service";
 

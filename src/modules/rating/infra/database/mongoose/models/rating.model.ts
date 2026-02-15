@@ -1,5 +1,5 @@
-import { Rating } from "@/modules/rating/rating.domain";
-import { RatingTypeSchema } from "@/modules/rating/rating.schema";
+import { Rating } from "../../../../rating.domain";
+import { RatingTypeSchema } from "../../../../rating.schema";
 import { model, Schema } from "mongoose";
 
 const ratingSchema = new Schema<Rating>({

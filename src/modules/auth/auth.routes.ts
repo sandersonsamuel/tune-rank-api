@@ -1,9 +1,9 @@
-import { validateRequest } from "@/shared/middlewares/validation-request.middleware";
+import { validateRequest } from "../../shared/middlewares/validation-request.middleware";
 import { Router } from "express";
-import { CreateUserRequest, LoginUserRequest } from "@/modules/user/user.dto";
-import { Container } from "@/shared/container";
+import { CreateUserRequest, LoginUserRequest } from "../user/user.dto";
+import { Container } from "../../shared/container";
 import { AuthController } from "./auth.controller";
-import { authMiddleware } from "@/shared/middlewares/jwt-handler.middleware";
+import { authMiddleware } from "../../shared/middlewares/jwt-handler.middleware";
 
 export const authRoutes = Router()
 

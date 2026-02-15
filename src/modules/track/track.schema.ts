@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { SpotifyAlbumSchema } from "@/modules/album/album.schema";
+import { SpotifyAlbumSchema } from "../album/album.schema";
 
 export const SpotifyExternalUrlsSchema = z.object({
     spotify: z.string()

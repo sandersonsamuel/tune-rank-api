@@ -1,7 +1,7 @@
 import { Response, Request } from "express";
 import { RatingService } from "./rating.service";
 import { CreateRatingRequestType } from "./rating.dto";
-import { TypedRequest } from "@/shared/dtos/request.dto";
+import { TypedRequest } from "../../shared/dtos/request.dto";
 
 export class RatingController {
     constructor(

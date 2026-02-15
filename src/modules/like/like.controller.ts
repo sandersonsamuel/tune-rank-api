@@ -1,7 +1,7 @@
 import { Response } from "express";
 import { LikeService } from "./like.service";
 import { CreateLikeRequestType } from "./like.dto";
-import { TypedRequest } from "@/shared/dtos/request.dto";
+import { TypedRequest } from "../../shared/dtos/request.dto";
 
 export class LikeController {
     constructor(

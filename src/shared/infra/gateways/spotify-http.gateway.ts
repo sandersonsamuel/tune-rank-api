@@ -1,9 +1,9 @@
-import { env } from "@/configs/env";
-import { SpotifyGateway } from "@/shared/gateways/spotify.gateway";
-import { SpotifyAlbum, SpotifyAlbumSearchResponse } from "@/modules/album/album.domain";
-import { SpotifyTrack, SpotifyTrackSearchResponse } from "@/modules/track/track.domain";
-import { SpotifyArtist } from "@/modules/artist/artist.domain";
-import { SpotifySearchResult } from "@/modules/search/search.domain";
+import { env } from "../../../configs/env";
+import { SpotifyGateway } from "../../gateways/spotify.gateway";
+import { SpotifyAlbum, SpotifyAlbumSearchResponse } from "../../../modules/album/album.domain";
+import { SpotifyTrack, SpotifyTrackSearchResponse } from "../../../modules/track/track.domain";
+import { SpotifyArtist } from "../../../modules/artist/artist.domain";
+import { SpotifySearchResult } from "../../../modules/search/search.domain";
 
 
 export class SpotifyHttpGateway implements SpotifyGateway {

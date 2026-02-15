@@ -1,6 +1,6 @@
 import { Response } from "express";
 import { ArtistService } from "./artist.service";
-import { TypedRequest } from "@/shared/dtos/request.dto";
+import { TypedRequest } from "../../shared/dtos/request.dto";
 
 export class ArtistController {
     constructor(

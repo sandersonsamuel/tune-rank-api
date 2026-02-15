@@ -1,4 +1,4 @@
-import { TypedRequest } from "@/shared/dtos/request.dto";
+import { TypedRequest } from "../../shared/dtos/request.dto";
 import { Response } from "express";
 import { SearchService } from "./search.service";
 import { SearchSchemaType } from "./search.schema";

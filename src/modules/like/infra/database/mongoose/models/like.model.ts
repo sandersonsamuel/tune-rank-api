@@ -1,4 +1,4 @@
-import { RatingTypeSchema } from "@/modules/rating/rating.schema";
+import { RatingTypeSchema } from "../../../../../rating/rating.schema";
 import { model, Schema } from "mongoose";
 
 const likeSchema = new Schema({

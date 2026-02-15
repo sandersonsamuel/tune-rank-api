@@ -1,4 +1,4 @@
-import { IHashProvider } from "@/shared/providers/hash.provider";
+import { IHashProvider } from "../../../providers/hash.provider";
 import bcrypt from 'bcrypt'
 import createHttpError from "http-errors";
 

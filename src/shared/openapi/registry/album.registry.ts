@@ -1,8 +1,8 @@
 import { z } from "zod";
 import { registry } from "..";
-import { errorSchema } from "@/schemas/errors/error.zod.schema";
-import { validationErrorSchema } from "@/schemas/errors/validation-error.zod.schema";
-import { SpotifyAlbumSchema, SpotifyAlbumSearchResponseSchema } from "@/modules/album/album.schema";
+import { errorSchema } from "../../../schemas/errors/error.zod.schema";
+import { validationErrorSchema } from "../../../schemas/errors/validation-error.zod.schema";
+import { SpotifyAlbumSchema, SpotifyAlbumSearchResponseSchema } from "../../../modules/album/album.schema";
 
 registry.register("SpotifyAlbum", SpotifyAlbumSchema);
 registry.register("SpotifyAlbumSearchResponse", SpotifyAlbumSearchResponseSchema);

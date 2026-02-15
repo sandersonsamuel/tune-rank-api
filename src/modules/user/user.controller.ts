@@ -1,7 +1,7 @@
 import { Response } from "express";
 import { CreateUserRequestType, LoginUserRequestType } from "./user.dto";
 import { UserService } from "./user.service";
-import { TypedRequest } from "@/shared/dtos/request.dto";
+import { TypedRequest } from "../../shared/dtos/request.dto";
 
 export class UserController {
 

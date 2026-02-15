@@ -1,8 +1,8 @@
 import { z } from "zod";
-import { CreateLikeDto } from "@/modules/like/like.dto";
-import { LikeSchema } from "@/modules/like/like.schema";
-import { errorSchema } from "@/schemas/errors/error.zod.schema";
-import { validationErrorSchema } from "@/schemas/errors/validation-error.zod.schema";
+import { CreateLikeDto } from "../../../modules/like/like.dto";
+import { LikeSchema } from "../../../modules/like/like.schema";
+import { errorSchema } from "../../../schemas/errors/error.zod.schema";
+import { validationErrorSchema } from "../../../schemas/errors/validation-error.zod.schema";
 import { StatusCodes } from "http-status-codes";
 import { registry } from "..";
 

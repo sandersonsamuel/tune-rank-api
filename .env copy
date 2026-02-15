@@ -1,0 +1,10 @@
+MONGO_INITDB_ROOT_USERNAME=sandersonsamuel401_db_user
+MONGO_INITDB_ROOT_PASSWORD=bVGdFPnTOhxWUaIs
+MONGO_URI=mongodb+srv://sandersonsamuel401_db_user:bVGdFPnTOhxWUaIs@tunerankdb.lyxnqte.mongodb.net/?appName=tunerankDB
+PORT=3001
+JWT_SECRET=secretjwt
+COOKIE_SECRET=secretcookie
+SPOTIFY_CLIENT_ID=17cccbbb93ea47e38b3a8c70dd030342
+SPOTIFY_CLIENT_SECRET=925d4b025aef4e7585692221719243b0
+SPOTIFY_BASE_URL=https://api.spotify.com/v1
+SPOTIFY_AUTH_URL=https://accounts.spotify.com/api/token

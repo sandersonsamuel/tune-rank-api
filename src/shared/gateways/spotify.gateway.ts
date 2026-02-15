@@ -1,7 +1,7 @@
-import { SpotifyAlbum } from "@/modules/album/album.domain"
-import { SpotifyArtist } from "@/modules/artist/artist.domain"
-import { SpotifySearchResult } from "@/modules/search/search.domain"
-import { SpotifyTrack } from "@/modules/track/track.domain"
+import { SpotifyAlbum } from "../../modules/album/album.domain"
+import { SpotifyArtist } from "../../modules/artist/artist.domain"
+import { SpotifySearchResult } from "../../modules/search/search.domain"
+import { SpotifyTrack } from "../../modules/track/track.domain"
 
 export interface SpotifyGateway {
   getAlbum(id: string): Promise<SpotifyAlbum>

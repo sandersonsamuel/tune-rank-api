@@ -1,9 +1,9 @@
-import { IHashProvider } from "@/shared/providers/hash.provider";
+import { IHashProvider } from "../../shared/providers/hash.provider";
 import createHttpError from "http-errors";
-import { LoginUserDtoType } from "@/modules/user/user.dto";
-import { UserRepository } from "@/modules/user/user.repository";
-import { AuthRepository } from "@/modules/auth/auth.repository";
-import { IJWTProvider } from "@/shared/providers/token.provider";
+import { LoginUserDtoType } from "../user/user.dto";
+import { UserRepository } from "../user/user.repository";
+import { AuthRepository } from "./auth.repository";
+import { IJWTProvider } from "../../shared/providers/token.provider";
 
 export class AuthService {
     constructor(

@@ -1,5 +1,5 @@
-import { CreateUserDtoType } from "@/modules/user/user.dto";
-import { UserRepository } from "@/modules/user/user.repository";
+import { CreateUserDtoType } from "../../../../user.dto";
+import { UserRepository } from "../../../../user.repository";
 import { UserModel } from "../models/user.model";
 import createHttpError from "http-errors";
 

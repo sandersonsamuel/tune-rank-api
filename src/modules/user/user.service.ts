@@ -1,9 +1,9 @@
-import { CreateUserDtoType, LoginUserDtoType } from "@/modules/user/user.dto";
-import { UserRepository } from "@/modules/user/user.repository";
-import { IHashProvider } from "@/shared/providers/hash.provider";
+import { CreateUserDtoType, LoginUserDtoType } from "./user.dto";
+import { UserRepository } from "./user.repository";
+import { IHashProvider } from "../../shared/providers/hash.provider";
 import createHttpError from "http-errors";
 import { User } from "./user.domain";
-import { IJWTProvider } from "@/shared/providers/token.provider";
+import { IJWTProvider } from "../../shared/providers/token.provider";
 
 export class UserService {
 

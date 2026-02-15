@@ -1,6 +1,6 @@
-import { Rating } from "@/modules/rating/rating.domain";
-import { CreateRatingDtoType } from "@/modules/rating/rating.dto";
-import { RatingRepository } from "@/modules/rating/rating.repository";
+import { Rating } from "../../../rating.domain";
+import { CreateRatingDtoType } from "../../../rating.dto";
+import { RatingRepository } from "../../../rating.repository";
 import { RatingModel } from "../mongoose/models/rating.model";
 import createHttpError from "http-errors";
 

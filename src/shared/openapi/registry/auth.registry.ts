@@ -1,8 +1,8 @@
-import { CreateUserDto, LoginUserDto } from "@/modules/user/user.dto";
+import { CreateUserDto, LoginUserDto } from "../../../modules/user/user.dto";
 import { registry } from "..";
-import { validationErrorSchema } from "@/schemas/errors/validation-error.zod.schema";
-import { errorSchema } from "@/schemas/errors/error.zod.schema";
-import { successSchema } from "@/schemas/success";
+import { validationErrorSchema } from "../../../schemas/errors/validation-error.zod.schema";
+import { errorSchema } from "../../../schemas/errors/error.zod.schema";
+import { successSchema } from "../../../schemas/success";
 
 registry.register("CreateUserDto", CreateUserDto);
 registry.register("LoginUserDto", LoginUserDto);

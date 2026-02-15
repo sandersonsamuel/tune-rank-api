@@ -1,5 +1,5 @@
-import { User } from "@/modules/user/user.domain";
-import { CreateUserDtoType } from "@/modules/user/user.dto";
+import { User } from "./user.domain";
+import { CreateUserDtoType } from "./user.dto";
 
 export interface UserRepository {
     create(user: CreateUserDtoType): Promise<User & { password: string }>

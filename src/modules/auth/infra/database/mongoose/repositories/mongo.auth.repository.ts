@@ -1,5 +1,5 @@
-import { Session } from "@/modules/auth/auth.domain";
-import { AuthRepository } from "@/modules/auth/auth.repository";
+import { Session } from "../../../../auth.domain";
+import { AuthRepository } from "../../../../auth.repository";
 import { SessionModel } from "../models/auth.model";
 import createHttpError from "http-errors";
 

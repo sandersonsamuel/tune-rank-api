@@ -1,4 +1,4 @@
-import { SpotifyGateway } from "@/shared/gateways/spotify.gateway";
+import { SpotifyGateway } from "../../shared/gateways/spotify.gateway";
 import createHttpError from "http-errors";
 
 export class TrackService {

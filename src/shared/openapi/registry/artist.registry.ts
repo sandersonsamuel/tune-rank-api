@@ -1,7 +1,7 @@
 import { z } from "zod";
-import { errorSchema } from "@/schemas/errors/error.zod.schema";
-import { validationErrorSchema } from "@/schemas/errors/validation-error.zod.schema";
-import { SpotifyArtistSchema } from "@/modules/artist/artist.schema";
+import { errorSchema } from "../../../schemas/errors/error.zod.schema";
+import { validationErrorSchema } from "../../../schemas/errors/validation-error.zod.schema";
+import { SpotifyArtistSchema } from "../../../modules/artist/artist.schema";
 import { registry } from "..";
 
 registry.register("SpotifyArtist", SpotifyArtistSchema);

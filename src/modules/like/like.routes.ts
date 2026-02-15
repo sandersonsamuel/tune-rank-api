@@ -1,10 +1,10 @@
 import { Router } from "express";
-import { Container } from "@/shared/container";
+import { Container } from "../../shared/container";
 import { LikeController } from "./like.controller";
-import { authMiddleware } from "@/shared/middlewares/jwt-handler.middleware";
-import { validateRequest } from "@/shared/middlewares/validation-request.middleware";
+import { authMiddleware } from "../../shared/middlewares/jwt-handler.middleware";
+import { validateRequest } from "../../shared/middlewares/validation-request.middleware";
 import { CreateLikeRequest } from "./like.dto";
-import { paramIdDto } from "@/shared/dtos/params.dto";
+import { paramIdDto } from "../../shared/dtos/params.dto";
 
 export const likeRoutes = Router();
 

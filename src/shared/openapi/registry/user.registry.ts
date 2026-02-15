@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { registry } from "..";
-import { errorSchema } from "@/schemas/errors/error.zod.schema";
-import { validationErrorSchema } from "@/schemas/errors/validation-error.zod.schema";
+import { errorSchema } from "../../../schemas/errors/error.zod.schema";
+import { validationErrorSchema } from "../../../schemas/errors/validation-error.zod.schema";
 
 const UserResponseSchema = z.object({
     id: z.string(),

@@ -1,10 +1,10 @@
-import { Container } from "@/shared/container";
-import { queryIdsDto } from "@/shared/dtos/query.dto";
-import { authMiddleware } from "@/shared/middlewares/jwt-handler.middleware";
-import { validateRequest } from "@/shared/middlewares/validation-request.middleware";
+import { Container } from "../../shared/container";
+import { queryIdsDto } from "../../shared/dtos/query.dto";
+import { authMiddleware } from "../../shared/middlewares/jwt-handler.middleware";
+import { validateRequest } from "../../shared/middlewares/validation-request.middleware";
 import { Router } from "express";
 import { AlbumController } from "./album.controller";
-import { paramIdDto } from "@/shared/dtos/params.dto";
+import { paramIdDto } from "../../shared/dtos/params.dto";
 
 export const albumRoutes = Router();
 

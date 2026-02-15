@@ -1,8 +1,8 @@
 import { z } from "zod";
 import { registry } from "..";
-import { errorSchema } from "@/schemas/errors/error.zod.schema";
-import { validationErrorSchema } from "@/schemas/errors/validation-error.zod.schema";
-import { SpotifyTrackSchema, SpotifyTrackSearchResponseSchema } from "@/modules/track/track.schema";
+import { errorSchema } from "../../../schemas/errors/error.zod.schema";
+import { validationErrorSchema } from "../../../schemas/errors/validation-error.zod.schema";
+import { SpotifyTrackSchema, SpotifyTrackSearchResponseSchema } from "../../../modules/track/track.schema";
 
 registry.register("SpotifyTrack", SpotifyTrackSchema);
 registry.register("SpotifyTrackSearchResponse", SpotifyTrackSearchResponseSchema);

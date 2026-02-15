@@ -1,5 +1,5 @@
-import { env } from "@/configs/env";
-import { IJWTProvider } from "@/shared/providers/token.provider";
+import { env } from "../../../../configs/env";
+import { IJWTProvider } from "../../../providers/token.provider";
 import * as jose from "jose"
 
 export class JoseTokenProvider implements IJWTProvider {

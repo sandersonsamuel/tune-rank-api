@@ -1,8 +1,8 @@
 import { Response, Request } from "express";
-import { CreateUserRequestType, LoginUserRequestType } from "@/modules/user/user.dto";
-import { UserService } from "@/modules/user/user.service";
-import { AuthService } from "@/modules/auth/auth.service";
-import { TypedRequest } from "@/shared/dtos/request.dto";
+import { CreateUserRequestType, LoginUserRequestType } from "../user/user.dto";
+import { UserService } from "../user/user.service";
+import { AuthService } from "./auth.service";
+import { TypedRequest } from "../../shared/dtos/request.dto";
 
 export class AuthController {
 

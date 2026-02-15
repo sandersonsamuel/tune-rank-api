@@ -1,6 +1,6 @@
-import { CreateRatingDto, GetRatingsByUserIdDto, RatingSchema, RatingTypeSchema } from "@/modules/rating/rating.schema";
-import { errorSchema } from "@/schemas/errors/error.zod.schema";
-import { validationErrorSchema } from "@/schemas/errors/validation-error.zod.schema";
+import { CreateRatingDto, GetRatingsByUserIdDto, RatingSchema, RatingTypeSchema } from "../../../modules/rating/rating.schema";
+import { errorSchema } from "../../../schemas/errors/error.zod.schema";
+import { validationErrorSchema } from "../../../schemas/errors/validation-error.zod.schema";
 import { StatusCodes } from "http-status-codes";
 import z from "zod/v4";
 import { registry } from "..";

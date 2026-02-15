@@ -1,10 +1,10 @@
 import { Router } from "express";
-import { Container } from "@/shared/container";
+import { Container } from "../../shared/container";
 import { RatingController } from "./rating.controller";
-import { authMiddleware } from "@/shared/middlewares/jwt-handler.middleware";
-import { validateRequest } from "@/shared/middlewares/validation-request.middleware";
+import { authMiddleware } from "../../shared/middlewares/jwt-handler.middleware";
+import { validateRequest } from "../../shared/middlewares/validation-request.middleware";
 import { CreateRatingRequest, GetRatingsByUserIdRequest } from "./rating.schema";
-import { paramIdDto } from "@/shared/dtos/params.dto";
+import { paramIdDto } from "../../shared/dtos/params.dto";
 
 export const ratingRoutes = Router();
 

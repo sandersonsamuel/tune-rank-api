@@ -1,12 +1,12 @@
 import express from "express";
 import "@/configs/env";
-import { errorHandler } from "@/shared/middlewares/error-handler.middleware";
-import { handleInvalidJson } from "@/shared/middlewares/handle-invalid-json.middleware";
+import { errorHandler } from "./shared/middlewares/error-handler.middleware";
+import { handleInvalidJson } from "./shared/middlewares/handle-invalid-json.middleware";
 import cookieParser from "cookie-parser";
-import { env } from "@/configs/env";
-import { registerDependencies } from "@/shared/container/register";
+import { env } from "./configs/env";
+import { registerDependencies } from "./shared/container/register";
 import cors from "cors";
-import { generateOpenApiDocument } from "@/shared/openapi/generator";
+import { generateOpenApiDocument } from "./shared/openapi/generator";
 import { apiReference } from '@scalar/express-api-reference';
 
 const app = express();

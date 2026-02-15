@@ -1,5 +1,5 @@
-import { app } from "@/app";
-import { connectMongo } from "@/shared/database/mongoose";
+import { app } from "./app";
+import { connectMongo } from "./shared/database/mongoose";
 import { env } from "process";
 import { startCronJobs } from "./shared/jobs";
 

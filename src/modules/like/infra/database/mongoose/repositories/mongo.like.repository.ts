@@ -1,6 +1,6 @@
-import { Like } from "@/modules/like/like.domain";
-import { CreateLikeDtoType } from "@/modules/like/like.dto";
-import { LikeRepository } from "@/modules/like/like.repository";
+import { Like } from "../../../../like.domain";
+import { CreateLikeDtoType } from "../../../../like.dto";
+import { LikeRepository } from "../../../../like.repository";
 import { LikeModel } from "../models/like.model";
 
 export class MongoLikeRepository implements LikeRepository {

@@ -1,4 +1,4 @@
-import { Session } from "@/modules/auth/auth.domain";
+import { Session } from "./auth.domain";
 
 export interface AuthRepository {
     createSession(userId: string, accessToken: string, refreshToken: string): Promise<Session>
