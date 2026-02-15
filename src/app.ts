@@ -7,7 +7,7 @@ import { env } from "./configs/env";
 import { registerDependencies } from "./shared/container/register";
 import cors from "cors";
 import { generateOpenApiDocument } from "./shared/openapi/generator";
-import { apiReference } from '@scalar/express-api-reference';
+import swaggerUi from "swagger-ui-express";
 
 const app = express();
 
@@ -20,15 +20,11 @@ app.use(cors({
 app.use(handleInvalidJson);
 app.use(cookieParser(env.COOKIE_SECRET));
 
-app.get('/openapi.json', (_req, res) => {
-  res.json(generateOpenApiDocument());
-});
-
 app.use(
   '/docs',
-  apiReference({
-    url: '/openapi.json',
-    title: 'API Mongo',
+  swaggerUi.serve,
+  swaggerUi.setup(generateOpenApiDocument(), {
+    customSiteTitle: 'API Mongo',
   })
 );
 

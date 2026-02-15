@@ -24,5 +24,5 @@ export const env = {
     SPOTIFY_BASE_URL: envSchema.parse(process.env).SPOTIFY_BASE_URL,
     SPOTIFY_AUTH_URL: envSchema.parse(process.env).SPOTIFY_AUTH_URL,
 }
-console.log("\nLoaded env:", env)
+console.log("\nLoaded envs ✅")
 console.log("\n")
