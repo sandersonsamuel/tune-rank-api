@@ -8,7 +8,7 @@ export const authMiddleware = async (req: Request, res: Response, next: NextFunc
     try {
         const jwtProvider = Container.resolve<JoseTokenProvider>("JWTProvider")
 
-        const accessToken = req.signedCookies.accessToken
+        const accessToken = req.signedCookies?.accessToken
 
         if (!accessToken) {
             throw new createHttpError.Unauthorized("Unauthorized")

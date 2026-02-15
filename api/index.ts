@@ -1,4 +1,4 @@
-import { app } from "../src/app";
+import { app, setupPromise } from "../src/app";
 import { connectMongo } from "../src/shared/database/mongoose";
 
 let isConnected = false;
@@ -11,7 +11,7 @@ async function initializeApp() {
     }
 
     if (!isSetupComplete) {
-        await new Promise(resolve => setTimeout(resolve, 100));
+        await setupPromise;
         isSetupComplete = true;
     }
 }

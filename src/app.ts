@@ -39,6 +39,6 @@ async function setupRoutes() {
   app.use(errorHandler);
 }
 
-setupRoutes();
+const setupPromise = setupRoutes();
 
-export { app };
+export { app, setupPromise };

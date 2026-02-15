@@ -60,7 +60,12 @@ export class AuthController {
     }
 
     refreshAccessToken = async (req: Request, res: Response) => {
-        const { refreshToken } = req.signedCookies
+        const { refreshToken } = req.signedCookies || {};
+
+        if (!refreshToken) {
+            throw new Error("Refresh token not found");
+        }
+
         const { accessToken } = await this.authService.refreshAccessToken(refreshToken, req.user.userId)
 
         res.cookie("accessToken", accessToken, {
