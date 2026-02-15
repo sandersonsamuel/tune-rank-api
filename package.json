@@ -8,6 +8,7 @@
     "dependencies": {
         "@asteasolutions/zod-to-openapi": "^8.4.0",
         "@hono/zod-openapi": "^1.2.0",
+        "@scalar/express-api-reference": "^0.8.40",
         "@types/express": "^5.0.6",
         "@types/node": "^25.0.10",
         "bcrypt": "^6.0.0",
