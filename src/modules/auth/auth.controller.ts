@@ -32,7 +32,6 @@ export class AuthController {
             secure: process.env.NODE_ENV === "production",
             sameSite: "lax",
             maxAge: 1000 * 60 * 60 * 24, // 1 dia
-            signed: true
         })
 
         res.cookie("refreshToken", refreshToken, {
@@ -40,7 +39,6 @@ export class AuthController {
             secure: process.env.NODE_ENV === "production",
             sameSite: "lax",
             maxAge: 1000 * 60 * 60 * 24 * 7, // 1 semana
-            signed: true
         })
 
         return res.status(200).json({
@@ -60,7 +58,7 @@ export class AuthController {
     }
 
     refreshAccessToken = async (req: Request, res: Response) => {
-        const { refreshToken } = req.signedCookies || {};
+        const { refreshToken } = req.cookies || {};
 
         if (!refreshToken) {
             throw new Error("Refresh token not found");
@@ -73,7 +71,6 @@ export class AuthController {
             secure: process.env.NODE_ENV === "production",
             sameSite: "lax",
             maxAge: 1000 * 60 * 60 * 24, // 1 dia
-            signed: true
         })
 
         return res.status(200).json({
