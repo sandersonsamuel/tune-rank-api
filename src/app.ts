@@ -7,6 +7,9 @@ import { env } from "./configs/env";
 import { registerDependencies } from "./shared/container/register";
 import cors from "cors";
 import { generateOpenApiDocument } from "./shared/openapi/generator";
+import { router } from "./routes.js";
+
+registerDependencies();
 
 const app = express();
 
@@ -31,14 +34,7 @@ app.use('/docs', async (req, res) => {
   return middleware(req, res);
 });
 
-async function setupRoutes() {
-  registerDependencies();
+app.use(router);
+app.use(errorHandler);
 
-  const { router } = await import("./routes.js");
-  app.use(router);
-  app.use(errorHandler);
-}
-
-const setupPromise = setupRoutes();
-
-export { app, setupPromise };
+export { app };
