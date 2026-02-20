@@ -7,9 +7,10 @@ import { env } from "./configs/env";
 import { registerDependencies } from "./shared/container/register";
 import cors from "cors";
 import { generateOpenApiDocument } from "./shared/openapi/generator";
-import { router } from "./routes.js";
 
 registerDependencies();
+
+const { router } = require("./routes");
 
 const app = express();
 
