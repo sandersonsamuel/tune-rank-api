@@ -7,3 +7,9 @@ export interface SpotifySearchResult {
   artists?: SpotifyArtistSearchResponse;
   tracks?: SpotifyTrackSearchResponse;
 }
+
+export interface SearchResponse {
+  albums: SpotifyAlbumSearchResponse['items'];
+  artists: SpotifyArtistSearchResponse['items'];
+  tracks: SpotifyTrackSearchResponse['items'];
+}

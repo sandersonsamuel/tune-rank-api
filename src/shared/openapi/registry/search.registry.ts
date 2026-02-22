@@ -2,6 +2,7 @@ import { z } from "zod";
 import { registry } from "..";
 import { errorSchema } from "../../../schemas/errors/error.zod.schema";
 import { validationErrorSchema } from "../../../schemas/errors/validation-error.zod.schema";
+import { SearchResponseSchema } from "@/modules/search/search.schema";
 
 registry.registerPath({
     method: "get",
@@ -19,20 +20,7 @@ registry.registerPath({
             description: "Resultados da busca retornados com sucesso",
             content: {
                 "application/json": {
-                    schema: {
-                        type: "object",
-                        properties: {
-                            albums: {
-                                $ref: "#/components/schemas/SpotifyAlbumSearchResponse"
-                            },
-                            artists: {
-                                $ref: "#/components/schemas/SpotifyArtistSearchResponse"
-                            },
-                            tracks: {
-                                $ref: "#/components/schemas/SpotifyTrackSearchResponse"
-                            }
-                        }
-                    }
+                    schema: SearchResponseSchema
                 }
             }
         },

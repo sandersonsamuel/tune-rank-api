@@ -42,12 +42,14 @@ export class AuthService {
         await this.authRepository.deleteSession(userId)
     }
 
-    async refreshAccessToken(refreshToken: string, userId: string) {
+    async refreshAccessToken(refreshToken: string) {
         const session = await this.authRepository.findByRefreshToken(refreshToken)
 
         if (!session) {
             throw new createHttpError.NotFound("Session not found")
         }
+
+        const { userId } = await this.tokenProvider.validateToken(refreshToken)
 
         if (session.userId !== userId) {
             throw new createHttpError.Unauthorized("Unauthorized")

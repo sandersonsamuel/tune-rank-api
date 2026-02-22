@@ -5,16 +5,94 @@ import { errorSchema } from "../../../schemas/errors/error.zod.schema";
 import { validationErrorSchema } from "../../../schemas/errors/validation-error.zod.schema";
 import { StatusCodes } from "http-status-codes";
 import { registry } from "..";
+import { SpotifyAlbumSchema } from "@/modules/album/album.schema";
+import { SpotifyTrackSchema } from "@/modules/track/track.schema";
 
 registry.register("CreateLikeDto", CreateLikeDto);
 registry.register("Like", LikeSchema);
 
 registry.registerPath({
+    method: "get",
+    path: "/like/{id}",
+    tags: ["Like"],
+    summary: "Obter like do usuário",
+    description: "Obtém o like do usuário logado",
+    request: {
+        params: z.object({
+            id: z.string().openapi({ description: "ID do release", example: "4aawyAB9vmqN3uQ7FjRGTy" })
+        })
+    },
+    responses: {
+        [StatusCodes.OK]: {
+            description: "Like do usuário obtido com sucesso",
+            content: {
+                "application/json": {
+                    schema: LikeSchema,
+                },
+            },
+        },
+        [StatusCodes.UNAUTHORIZED]: {
+            description: "Não autenticado - Token inválido ou expirado",
+            content: {
+                "application/json": {
+                    schema: errorSchema,
+                },
+            },
+        },
+        [StatusCodes.INTERNAL_SERVER_ERROR]: {
+            description: "Erro interno do servidor",
+            content: {
+                "application/json": {
+                    schema: errorSchema,
+                },
+            },
+        },
+    },
+});
+
+registry.registerPath({
+    method: "get",
+    path: "/like/user",
+    tags: ["Like"],
+    summary: "Obter likes do usuário",
+    description: "Obtém os likes do usuário logado",
+    responses: {
+        [StatusCodes.OK]: {
+            description: "Likes do usuário obtidos com sucesso",
+            content: {
+                "application/json": {
+                    schema: z.object({
+                        tracks: z.array(SpotifyTrackSchema),
+                        albums: z.array(SpotifyAlbumSchema),
+                    }),
+                },
+            },
+        },
+        [StatusCodes.UNAUTHORIZED]: {
+            description: "Não autenticado - Token inválido ou expirado",
+            content: {
+                "application/json": {
+                    schema: errorSchema,
+                },
+            },
+        },
+        [StatusCodes.INTERNAL_SERVER_ERROR]: {
+            description: "Erro interno do servidor",
+            content: {
+                "application/json": {
+                    schema: errorSchema,
+                },
+            },
+        },
+    },
+});
+
+registry.registerPath({
     method: "post",
     path: "/like",
     tags: ["Like"],
-    summary: "Curtir uma faixa",
-    description: "Cria um like para uma faixa. A faixa deve existir no Spotify",
+    summary: "Curtir uma faixa ou álbum",
+    description: "Cria um like para uma faixa ou álbum. A faixa ou álbum deve existir no Spotify",
     request: {
         body: {
             content: {

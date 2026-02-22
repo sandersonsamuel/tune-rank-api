@@ -10,5 +10,7 @@ export const likeRoutes = Router();
 
 const likeController = Container.resolve<LikeController>("LikeController");
 
+likeRoutes.get("/user", authMiddleware, likeController.getUserLikes);
+likeRoutes.get("/:id", authMiddleware, validateRequest(paramIdDto), likeController.getUserLike);
 likeRoutes.post("/", authMiddleware, validateRequest(CreateLikeRequest), likeController.create);
 likeRoutes.delete("/:id", authMiddleware, validateRequest(paramIdDto), likeController.delete);

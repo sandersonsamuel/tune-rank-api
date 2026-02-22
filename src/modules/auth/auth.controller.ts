@@ -3,6 +3,7 @@ import { CreateUserRequestType, LoginUserRequestType } from "../user/user.dto";
 import { UserService } from "../user/user.service";
 import { AuthService } from "./auth.service";
 import { TypedRequest } from "../../shared/dtos/request.dto";
+import createHttpError from "http-errors";
 
 export class AuthController {
 
@@ -61,10 +62,10 @@ export class AuthController {
         const { refreshToken } = req.cookies || {};
 
         if (!refreshToken) {
-            throw new Error("Refresh token not found");
+            throw new createHttpError.Unauthorized("Refresh token not found");
         }
 
-        const { accessToken } = await this.authService.refreshAccessToken(refreshToken, req.user.userId)
+        const { accessToken } = await this.authService.refreshAccessToken(refreshToken)
 
         res.cookie("accessToken", accessToken, {
             httpOnly: true,

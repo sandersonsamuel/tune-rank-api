@@ -104,7 +104,8 @@ export const registerDependencies = () => {
 
     Container.register("LikeService", () => new LikeService(
         Container.resolve("MongoLikeRepository"),
-        Container.resolve("TrackService")
+        Container.resolve("TrackService"),
+        Container.resolve("AlbumService")
     ))
     console.log(`${green}  ✓ LikeService${reset}`)
 
