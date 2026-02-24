@@ -13,6 +13,7 @@ registerDependencies();
 const { router } = require("./routes");
 
 const app = express();
+app.set("trust proxy", 1);
 
 app.use(express.json());
 app.use(cors({
