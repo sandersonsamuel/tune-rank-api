@@ -19,13 +19,13 @@ export class LikeService {
     getUserLikes = async (userId: string) => {
         const likes = await this.likeRepository.findUserLikes(userId);
 
-        const tracks = await this.trackService.findManyByIds(likes.filter((like) => like.type === "TRACK").map((like) => like.releaseId));
-        const albums = await this.albumService.findManyByIds(likes.filter((like) => like.type === "ALBUM").map((like) => like.releaseId));
+        const trackIds = likes.filter((like) => like.type === "TRACK").map((like) => like.releaseId);
+        const albumIds = likes.filter((like) => like.type === "ALBUM").map((like) => like.releaseId);
 
-        return {
-            tracks,
-            albums,
-        };
+        const tracks = trackIds.length > 0 ? await this.trackService.findManyByIds(trackIds) : [];
+        const albums = albumIds.length > 0 ? await this.albumService.findManyByIds(albumIds) : [];
+
+        return { tracks, albums };
     };
 
     create = async (data: CreateLikeDtoType, userId: string) => {
