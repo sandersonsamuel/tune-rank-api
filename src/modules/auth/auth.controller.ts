@@ -30,15 +30,15 @@ export class AuthController {
 
         res.cookie("accessToken", accessToken, {
             httpOnly: true,
-            secure: process.env.NODE_ENV === "production",
-            sameSite: "lax",
+            secure: true,
+            sameSite: "none",
             maxAge: 1000 * 60 * 60 * 24, // 1 dia
         })
 
         res.cookie("refreshToken", refreshToken, {
             httpOnly: true,
-            secure: process.env.NODE_ENV === "production",
-            sameSite: "lax",
+            secure: true,
+            sameSite: "none",
             maxAge: 1000 * 60 * 60 * 24 * 7, // 1 semana
         })
 
@@ -48,8 +48,16 @@ export class AuthController {
     }
 
     logout = async (req: Request, res: Response) => {
-        res.clearCookie("accessToken")
-        res.clearCookie("refreshToken")
+        res.clearCookie("accessToken", {
+            httpOnly: true,
+            secure: true,
+            sameSite: "none",
+        })
+        res.clearCookie("refreshToken", {
+            httpOnly: true,
+            secure: true,
+            sameSite: "none",
+        })
 
         await this.authService.logout(req.user.userId)
 
@@ -69,8 +77,8 @@ export class AuthController {
 
         res.cookie("accessToken", accessToken, {
             httpOnly: true,
-            secure: process.env.NODE_ENV === "production",
-            sameSite: "lax",
+            secure: true,
+            sameSite: "none",
             maxAge: 1000 * 60 * 60 * 24, // 1 dia
         })
 
