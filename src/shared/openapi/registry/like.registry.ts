@@ -5,8 +5,8 @@ import { errorSchema } from "../../../schemas/errors/error.zod.schema";
 import { validationErrorSchema } from "../../../schemas/errors/validation-error.zod.schema";
 import { StatusCodes } from "http-status-codes";
 import { registry } from "..";
-import { SpotifyAlbumSchema } from "@/modules/album/album.schema";
-import { SpotifyTrackSchema } from "@/modules/track/track.schema";
+import { AlbumSchema } from "@/modules/album/album.schema";
+import { TrackSchema } from "@/modules/track/track.schema";
 
 registry.register("CreateLikeDto", CreateLikeDto);
 registry.register("Like", LikeSchema);
@@ -62,8 +62,8 @@ registry.registerPath({
             content: {
                 "application/json": {
                     schema: z.object({
-                        tracks: z.array(SpotifyTrackSchema),
-                        albums: z.array(SpotifyAlbumSchema),
+                        tracks: z.array(TrackSchema),
+                        albums: z.array(AlbumSchema),
                     }),
                 },
             },

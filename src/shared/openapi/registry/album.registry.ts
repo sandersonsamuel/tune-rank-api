@@ -2,10 +2,9 @@ import { z } from "zod";
 import { registry } from "..";
 import { errorSchema } from "../../../schemas/errors/error.zod.schema";
 import { validationErrorSchema } from "../../../schemas/errors/validation-error.zod.schema";
-import { SpotifyAlbumSchema, SpotifyAlbumSearchResponseSchema } from "../../../modules/album/album.schema";
+import { AlbumSchema } from "../../../modules/album/album.schema";
 
-registry.register("SpotifyAlbum", SpotifyAlbumSchema);
-registry.register("SpotifyAlbumSearchResponse", SpotifyAlbumSearchResponseSchema);
+registry.register("Album", AlbumSchema);
 
 registry.registerPath({
     method: "get",
@@ -23,7 +22,7 @@ registry.registerPath({
             description: "Álbum encontrado com sucesso",
             content: {
                 "application/json": {
-                    schema: SpotifyAlbumSchema
+                    schema: AlbumSchema
                 }
             }
         },
@@ -78,7 +77,7 @@ registry.registerPath({
             description: "Álbuns encontrados com sucesso",
             content: {
                 "application/json": {
-                    schema: SpotifyAlbumSearchResponseSchema
+                    schema: z.array(AlbumSchema)
                 }
             }
         },

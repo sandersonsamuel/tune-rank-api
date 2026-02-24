@@ -9,7 +9,7 @@ export class LikeService {
         private readonly likeRepository: LikeRepository,
         private readonly trackService: TrackService,
         private readonly albumService: AlbumService,
-    ) {}
+    ) { }
 
     getUserLike = async (userId: string, releaseId: string) => {
         const like = await this.likeRepository.findUserLike(userId, releaseId);
@@ -29,13 +29,19 @@ export class LikeService {
     };
 
     create = async (data: CreateLikeDtoType, userId: string) => {
-        const track = await this.trackService.findById(data.releaseId);
 
-        if (!track) {
-            throw new createHttpError.NotFound("Track not found");
+        const releaseCall = data.type === "TRACK" ?
+            this.trackService.findById(data.releaseId) :
+            this.albumService.findById(data.releaseId);
+
+        const release = await releaseCall;
+
+        if (!release) {
+            throw new createHttpError.NotFound("Release not found");
         }
 
         const isLiked = await this.likeRepository.findUserLike(userId, data.releaseId);
+
 
         if (isLiked) {
             throw new createHttpError.Conflict("You already liked this release");
@@ -44,7 +50,7 @@ export class LikeService {
         const like = await this.likeRepository.create(data, userId);
         return like;
     };
-    
+
     delete = async (userId: string, releaseId: string) => {
         await this.likeRepository.delete(userId, releaseId);
     };

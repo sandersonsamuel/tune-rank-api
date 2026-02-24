@@ -10,5 +10,5 @@ export const trackRoutes = Router();
 
 const trackController = Container.resolve<TrackController>("TrackController");
 
-trackRoutes.get("/:id", authMiddleware, validateRequest(paramIdDto), trackController.findById);
+trackRoutes.get("/:id", validateRequest(paramIdDto), trackController.findById);
 trackRoutes.get("/", authMiddleware, validateRequest(queryIdsDto), trackController.findManyByIds);

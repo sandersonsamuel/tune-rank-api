@@ -6,7 +6,7 @@ import createHttpError from "http-errors";
 
 export class MongoRatingRepository implements RatingRepository {
 
-    async findByUserIdAndReleaseId(releaseId: string, userId: string): Promise<Rating | null> {
+    async findOneByReleaseAndUserId(releaseId: string, userId: string): Promise<Rating | null> {
         const rating = await RatingModel.findOne({ releaseId, userId });
 
         if (!rating) {
@@ -26,13 +26,23 @@ export class MongoRatingRepository implements RatingRepository {
     }
 
     async create(data: CreateRatingDtoType, userId: string): Promise<Rating> {
-        const rating = await RatingModel.create({
-            userId,
-            releaseId: data.releaseId,
-            review: data.review,
-            type: data.type,
-            rating: data.rating
-        });
+        const rating = await RatingModel.findOneAndUpdate(
+            {
+                userId,
+                releaseId: data.releaseId,
+            },
+            {
+                $set: {
+                    review: data.review,
+                    type: data.type,
+                    rating: data.rating,
+                },
+            },
+            {
+                new: true,
+                upsert: true,
+            }
+        );
 
         if (!rating) {
             throw new createHttpError.InternalServerError("Failed to create rating");
@@ -69,14 +79,14 @@ export class MongoRatingRepository implements RatingRepository {
         }));
     }
 
-    async findByReleaseId(releaseId: string): Promise<Rating | null> {
-        const rating = await RatingModel.findOne({ releaseId }).sort({ createdAt: 1 })
+    async findManyByReleaseId(releaseId: string): Promise<Rating[] | []> {
+        const ratings = await RatingModel.find({ releaseId }).sort({ createdAt: 1 })
 
-        if (!rating) {
-            return null;
+        if (!ratings) {
+            return [];
         }
 
-        return {
+        return ratings.map(rating => ({
             id: rating._id.toString(),
             userId: rating.userId,
             releaseId: rating.releaseId,
@@ -85,6 +95,6 @@ export class MongoRatingRepository implements RatingRepository {
             rating: rating.rating,
             createdAt: rating.createdAt,
             updatedAt: rating.updatedAt
-        }
+        }));
     }
 }

@@ -10,4 +10,4 @@ export const searchRoutes = Router();
 
 const searchController = Container.resolve<SearchController>("SearchController");
 
-searchRoutes.get("/", authMiddleware, validateRequest(QueryTypedDto(SearchSchema)), searchController.search);
+searchRoutes.get("/", validateRequest(QueryTypedDto(SearchSchema)), searchController.search);

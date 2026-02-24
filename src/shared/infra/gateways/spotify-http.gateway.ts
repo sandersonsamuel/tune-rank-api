@@ -1,7 +1,7 @@
 import { env } from "../../../configs/env";
 import { SpotifyGateway } from "../../gateways/spotify.gateway";
-import { SpotifyAlbum, SpotifyAlbumSearchResponse } from "../../../modules/album/album.domain";
-import { SpotifyTrack, SpotifyTrackSearchResponse } from "../../../modules/track/track.domain";
+import { SpotifyAlbum } from "../../../modules/album/album.domain";
+import { SpotifyTrack } from "../../../modules/track/track.domain";
 import { SpotifyArtist } from "../../../modules/artist/artist.domain";
 import { SpotifySearchResult } from "../../../modules/search/search.domain";
 
@@ -12,8 +12,8 @@ export class SpotifyHttpGateway implements SpotifyGateway {
     private token: string | null = null
     private tokenExpiresAt: number = 0
 
-    private async getAccessToken(){
-        if(this.token && Date.now() < this.tokenExpiresAt){
+    private async getAccessToken() {
+        if (this.token && Date.now() < this.tokenExpiresAt) {
             return this.token
         }
 
@@ -32,7 +32,7 @@ export class SpotifyHttpGateway implements SpotifyGateway {
         return this.token
     }
 
-    private async request<T>(path: string, options: RequestInit = {}){
+    private async request<T>(path: string, options: RequestInit = {}) {
 
         const token = await this.getAccessToken()
 
@@ -68,5 +68,13 @@ export class SpotifyHttpGateway implements SpotifyGateway {
 
     async search(query: string): Promise<SpotifySearchResult> {
         return this.request(`search?q=${encodeURIComponent(query)}&type=track,album,artist`)
+    }
+
+    async getArtistAlbums(id: string): Promise<{ items: SpotifyAlbum[] }> {
+        return this.request(`artists/${id}/albums`)
+    }
+
+    async getArtistTopTracks(id: string): Promise<{ tracks: SpotifyTrack[] }> {
+        return this.request(`artists/${id}/top-tracks`)
     }
 }

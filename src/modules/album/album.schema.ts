@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { ArtistSummarySchema, ImageSchema } from "../../shared/schemas/shared.schema";
 
 export const SpotifyExternalUrlsSchema = z.object({
     spotify: z.string()
@@ -63,3 +64,20 @@ export const SpotifyAlbumSearchResponseSchema = z.object({
     total: z.number(),
     items: z.array(SpotifyAlbumSchema)
 });
+
+export const AlbumSchema = z.object({
+    id: z.string(),
+    name: z.string(),
+    images: z.array(ImageSchema),
+    release_date: z.string(),
+    type: z.string(),
+    artists: z.array(ArtistSummarySchema),
+    tracks: z.array(
+        z.object({
+            id: z.string(),
+            name: z.string(),
+            artists: z.array(ArtistSummarySchema),
+        })
+    ),
+});
+

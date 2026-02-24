@@ -10,4 +10,6 @@ export interface SpotifyGateway {
   getTracks(ids: string[]): Promise<{ tracks: SpotifyTrack[] }>
   getArtist(id: string): Promise<SpotifyArtist>
   search(query: string): Promise<SpotifySearchResult>
+  getArtistAlbums(id: string): Promise<{ items: SpotifyAlbum[] }>
+  getArtistTopTracks(id: string): Promise<{ tracks: SpotifyTrack[] }>
 }

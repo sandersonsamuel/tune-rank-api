@@ -36,12 +36,6 @@ export class RatingService {
             }
         }
 
-        const rating = await this.ratingRepository.findByUserIdAndReleaseId(data.releaseId, userId);
-
-        if (rating) {
-            throw createHttpError(StatusCodes.CONFLICT, "You already rated this release");
-        }
-
         return await this.ratingRepository.create(data, userId);
     };
 
@@ -88,13 +82,24 @@ export class RatingService {
         }
     };
 
-    getByReleaseId = async (releaseId: string, userId: string) => {
-        const rating = await this.ratingRepository.findByUserIdAndReleaseId(releaseId, userId);
+    getRatingsByReleaseId = async (releaseId: string) => {
+        const ratings = await this.ratingRepository.findManyByReleaseId(releaseId);
 
-        if (!rating) {
-            throw createHttpError(StatusCodes.NOT_FOUND, "Rating not found");
+        const ratingsByRating = Array.from({ length: 10 }, (_, index) => {
+            return {
+                rating: (index + 1) / 2,
+                count: ratings.filter(r => r.rating === (index + 1) / 2).length
+            }
+        })
+
+        return {
+            distribution: ratingsByRating,
+            average: ratings.length > 0 ? ratings.reduce((acc, rating) => acc + rating.rating, 0) / ratings.length : 0,
+            total: ratings.length
         }
+    }
 
-        return rating;
+    getRatingByReleaseAndUserId = async (releaseId: string, userId: string) => {
+        return await this.ratingRepository.findOneByReleaseAndUserId(releaseId, userId);
     }
 }

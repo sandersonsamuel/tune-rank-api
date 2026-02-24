@@ -12,6 +12,7 @@ const envSchema = z.object({
     SPOTIFY_CLIENT_SECRET: z.string().min(1),
     SPOTIFY_BASE_URL: z.string().default("https://api.spotify.com/v1"),
     SPOTIFY_AUTH_URL: z.string().default("https://accounts.spotify.com/api/token"),
+    CLIENT_URL: z.string().default("https://tunerank.samu.dev.br"),
 })
 
 export const env = {
@@ -23,6 +24,7 @@ export const env = {
     SPOTIFY_CLIENT_SECRET: envSchema.parse(process.env).SPOTIFY_CLIENT_SECRET,
     SPOTIFY_BASE_URL: envSchema.parse(process.env).SPOTIFY_BASE_URL,
     SPOTIFY_AUTH_URL: envSchema.parse(process.env).SPOTIFY_AUTH_URL,
+    CLIENT_URL: envSchema.parse(process.env).CLIENT_URL,
 }
 console.log("\nLoaded envs ✅")
 console.log("\n")

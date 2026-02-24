@@ -90,7 +90,9 @@ export const registerDependencies = () => {
     console.log(`${green}  ✓ SearchService${reset}`)
 
     Container.register("ArtistService", () => new ArtistService(
-        Container.resolve("SpotifyHttpGateway")
+        Container.resolve("SpotifyHttpGateway"),
+        Container.resolve("TrackService"),
+        Container.resolve("AlbumService")
     ))
     console.log(`${green}  ✓ ArtistService${reset}`)
 

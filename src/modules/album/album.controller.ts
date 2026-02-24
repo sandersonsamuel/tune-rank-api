@@ -7,6 +7,11 @@ export class AlbumController {
         private readonly albumService: AlbumService
     ) {}
 
+    findByArtistId = async (req: TypedRequest<{ id: string }>, res: Response) => {
+        const albums = await this.albumService.findManyByArtistId(req.params.id);
+        return res.status(200).json(albums);
+    };
+
     findById = async (req: TypedRequest<{ id: string }>, res: Response) => {
         const album = await this.albumService.findById(req.params.id);
         return res.status(200).json(album);

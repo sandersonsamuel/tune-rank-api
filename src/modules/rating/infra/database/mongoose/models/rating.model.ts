@@ -5,7 +5,7 @@ import { model, Schema } from "mongoose";
 const ratingSchema = new Schema<Rating>({
     userId: { type: String, required: true },
     releaseId: { type: String, required: true },
-    review: { type: String, required: true },
+    review: { type: String },
     type: { type: String, enum: RatingTypeSchema.enum, required: true },
     rating: { type: Number, required: true },
 }, { timestamps: true })
