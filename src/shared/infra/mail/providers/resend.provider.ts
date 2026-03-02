@@ -1,5 +1,5 @@
-import { env } from "@/configs/env";
-import { IMailProvider } from "@/shared/providers/mail.provider";
+import { env } from "../../../../configs/env";
+import { IMailProvider } from "../../../providers/mail.provider";
 import { Resend } from "resend";
 
 export default class ResendProvider implements IMailProvider {
