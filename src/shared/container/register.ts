@@ -22,6 +22,7 @@ import { RatingController } from "../../modules/rating/rating.controller"
 import { MongoLikeRepository } from "../../modules/like/infra/database/mongoose/repositories/mongo.like.repository"
 import { LikeService } from "../../modules/like/like.service"
 import { LikeController } from "../../modules/like/like.controller"
+import ResendProvider from "../infra/mail/providers/resend.provider"
 
 export const registerDependencies = () => {
     const green = '\x1b[32m'
@@ -57,6 +58,9 @@ export const registerDependencies = () => {
     Container.register("JWTProvider", () => new JoseTokenProvider())
     console.log(`${green}  ✓ JWTProvider${reset}`)
 
+    Container.register("MailProvider", () => new ResendProvider())
+    console.log(`${green}  ✓ MailProvider${reset}`)
+
     // Services
     console.log(`\n${green}${bold}[Services]${reset}`)
     Container.register("AuthService", () => new AuthService(
@@ -70,7 +74,8 @@ export const registerDependencies = () => {
     Container.register("UserService", () => new UserService(
         Container.resolve("MongoUserRepository"),
         Container.resolve("BCryptProvider"),
-        Container.resolve("JWTProvider")
+        Container.resolve("JWTProvider"),
+        Container.resolve("MailProvider")
     ))
     console.log(`${green}  ✓ UserService${reset}`)
 

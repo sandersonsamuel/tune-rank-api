@@ -35,8 +35,6 @@ export class ArtistService {
             throw createHttpError.NotFound("Artist albums not found");
         }
 
-        console.log(albums)
-
         return albums.items.map(this.albumService.formatAlbum);
     }
 

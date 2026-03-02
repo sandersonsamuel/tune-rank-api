@@ -4,6 +4,7 @@ import { IHashProvider } from "../../shared/providers/hash.provider";
 import createHttpError from "http-errors";
 import { User } from "./user.domain";
 import { IJWTProvider } from "../../shared/providers/token.provider";
+import { IMailProvider } from "@/shared/providers/mail.provider";
 
 export class UserService {
 
@@ -11,6 +12,7 @@ export class UserService {
         private readonly userRepository: UserRepository,
         private readonly hashProvider: IHashProvider,
         private readonly jwtProvider: IJWTProvider,
+        private readonly mailProvider: IMailProvider
     ) { }
 
     async findById(id: string): Promise<User> {
@@ -33,6 +35,8 @@ export class UserService {
         user.password = await this.hashProvider.generateHash(user.password)
 
         const { password, ...userWithoutPassword } = await this.userRepository.create(user)
+
+        await this.mailProvider.sendEmail(user.email, "Welcome to TuneRank", "Welcome to TuneRank")
 
         return userWithoutPassword
     }

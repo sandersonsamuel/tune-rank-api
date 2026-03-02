@@ -23,6 +23,7 @@
         "jose": "^5.10.0",
         "mongoose": "^9.1.5",
         "node-cron": "^4.2.1",
+        "resend": "^6.9.2",
         "swagger-ui-express": "^5.0.1",
         "tsx": "^4.21.0",
         "typescript": "^5.9.3",
