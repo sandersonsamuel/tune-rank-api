@@ -15,7 +15,13 @@ export class AuthController {
     me = async (req: TypedRequest, res: Response) => {
         const { userId } = req.user;
         const user = await this.userService.findById(userId);
-        return res.status(200).json(user);
+        return res.status(200).json({
+            id: user.id,
+            name: user.name,
+            email: user.email,
+            createdAt: user.createdAt,
+            updatedAt: user.updatedAt,
+        });
     }
 
     register = async (req: CreateUserRequestType, res: Response) => {

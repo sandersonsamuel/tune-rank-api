@@ -25,7 +25,19 @@ export class MongoUserRepository implements UserRepository {
 
     async findById(id: string) {
         const user = await UserModel.findById(id)
-        return user
+
+        if (!user) {
+            throw new createHttpError.NotFound("User not found");
+        }
+
+        return {
+            id: user._id.toString(),
+            name: user.name,
+            email: user.email,
+            password: user.password,
+            createdAt: user.createdAt,
+            updatedAt: user.updatedAt,
+        }
     }
 
     async findByEmail(email: string) {
