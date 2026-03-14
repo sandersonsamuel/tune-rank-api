@@ -24,7 +24,7 @@ export function buildVerificationEmailHtml(name: string, url: string): string {
               </p>
               <table cellpadding="0" cellspacing="0" style="margin:0 auto 32px;">
                 <tr>
-                  <td style="border-radius:8px;background-color:#1db954;">
+                  <td style="border-radius:8px;background-color:#3779E3;">
                     <a href="${url}" target="_blank" style="display:inline-block;padding:14px 32px;font-size:15px;font-weight:bold;color:#ffffff;text-decoration:none;letter-spacing:0.3px;">
                       Verificar email
                     </a>
@@ -35,7 +35,7 @@ export function buildVerificationEmailHtml(name: string, url: string): string {
                 O link expira em 24 horas. Se você não criou uma conta, ignore este email.
               </p>
               <p style="margin:0;font-size:13px;color:#606060;word-break:break-all;">
-                Ou acesse: <a href="${url}" style="color:#1db954;">${url}</a>
+                Ou acesse: <a href="${url}" style="color:#3779E3;">${url}</a>
               </p>
             </td>
           </tr>
