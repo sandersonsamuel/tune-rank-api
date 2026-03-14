@@ -5,6 +5,9 @@ const userSchema = new Schema({
     email: {type: String, required: true},
     password: {type: String, required: true},
     deletedAt: {type: Date, default: null},
+    emailVerified: {type: Boolean, default: false},
+    emailVerificationToken: {type: String, default: null},
+    emailVerificationTokenExpires: {type: Date, default: null},
 }, { timestamps: true })
 
 export const UserModel = model("User", userSchema)

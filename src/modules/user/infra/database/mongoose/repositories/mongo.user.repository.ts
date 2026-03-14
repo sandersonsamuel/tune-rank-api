@@ -18,6 +18,7 @@ export class MongoUserRepository implements UserRepository {
             name: newUser.name,
             email: newUser.email,
             password: newUser.password,
+            emailVerified: newUser.emailVerified,
             createdAt: newUser.createdAt,
             updatedAt: newUser.updatedAt,
         };
@@ -35,6 +36,7 @@ export class MongoUserRepository implements UserRepository {
             name: user.name,
             email: user.email,
             password: user.password,
+            emailVerified: user.emailVerified,
             createdAt: user.createdAt,
             updatedAt: user.updatedAt,
         }
@@ -48,6 +50,36 @@ export class MongoUserRepository implements UserRepository {
     async findManyByIds(ids: string[]) {
         const users = await UserModel.find({ _id: { $in: ids } })
         return users
+    }
+
+    async findByVerificationToken(token: string) {
+        const user = await UserModel.findOne({ emailVerificationToken: token })
+        if (!user) return null
+        return {
+            id: user._id.toString(),
+            name: user.name,
+            email: user.email,
+            password: user.password,
+            emailVerified: user.emailVerified,
+            emailVerificationTokenExpires: user.emailVerificationTokenExpires as Date | null,
+            createdAt: user.createdAt,
+            updatedAt: user.updatedAt,
+        }
+    }
+
+    async setVerificationToken(id: string, token: string, expires: Date) {
+        await UserModel.findByIdAndUpdate(id, {
+            emailVerificationToken: token,
+            emailVerificationTokenExpires: expires,
+        })
+    }
+
+    async markEmailAsVerified(id: string) {
+        await UserModel.findByIdAndUpdate(id, {
+            emailVerified: true,
+            emailVerificationToken: null,
+            emailVerificationTokenExpires: null,
+        })
     }
 
 }

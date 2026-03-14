@@ -27,6 +27,10 @@ export class AuthService {
             throw new createHttpError.BadRequest("Invalid password")
         }
 
+        if (!userExists.emailVerified) {
+            throw new createHttpError.Forbidden("Email not verified. Check your inbox and verify your email before logging in.")
+        }
+
         const accessToken = await this.tokenProvider.generateAccessToken(userExists.id)
         const refreshToken = await this.tokenProvider.generateRefreshToken(userExists.id)
 

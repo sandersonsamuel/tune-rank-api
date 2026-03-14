@@ -1,5 +1,5 @@
 import { Response, Request } from "express";
-import { CreateUserRequestType, LoginUserRequestType } from "../user/user.dto";
+import { CreateUserRequestType, LoginUserRequestType, ResendVerificationRequestType, VerifyEmailRequestType } from "../user/user.dto";
 import { UserService } from "../user/user.service";
 import { AuthService } from "./auth.service";
 import { TypedRequest } from "../../shared/dtos/request.dto";
@@ -19,6 +19,7 @@ export class AuthController {
             id: user.id,
             name: user.name,
             email: user.email,
+            emailVerified: user.emailVerified,
             createdAt: user.createdAt,
             updatedAt: user.updatedAt,
         });
@@ -91,6 +92,18 @@ export class AuthController {
         return res.status(200).json({
             success: true
         })
+    }
+
+    verifyEmail = async (req: VerifyEmailRequestType, res: Response) => {
+        const { token } = req.query
+        await this.userService.verifyEmail(token)
+        return res.status(200).json({ success: true, message: "Email verificado com sucesso" })
+    }
+
+    resendVerification = async (req: ResendVerificationRequestType, res: Response) => {
+        const { email } = req.body
+        await this.userService.resendVerificationEmail(email)
+        return res.status(200).json({ success: true, message: "Email de verificação reenviado" })
     }
 
 }

@@ -1,5 +1,5 @@
 import { Response } from "express";
-import { CreateUserRequestType, LoginUserRequestType } from "./user.dto";
+import { CreateUserRequestType } from "./user.dto";
 import { UserService } from "./user.service";
 import { TypedRequest } from "../../shared/dtos/request.dto";
 
@@ -21,13 +21,6 @@ export class UserController {
 
         const user = await this.userService.createUser({ name, email, password })
         return res.status(201).json(user)
-    }
-
-    loginUser = async (req: LoginUserRequestType, res: Response) => {
-        const { email, password } = req.body
-
-        const user = await this.userService.loginUser({ email, password })
-        return res.status(200).json(user)
     }
 
 }

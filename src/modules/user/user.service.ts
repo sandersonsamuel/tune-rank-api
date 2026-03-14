@@ -1,10 +1,13 @@
-import { CreateUserDtoType, LoginUserDtoType } from "./user.dto";
+import { CreateUserDtoType } from "./user.dto";
 import { UserRepository } from "./user.repository";
 import { IHashProvider } from "../../shared/providers/hash.provider";
 import createHttpError from "http-errors";
 import { User } from "./user.domain";
 import { IJWTProvider } from "../../shared/providers/token.provider";
 import { IMailProvider } from "@/shared/providers/mail.provider";
+import { env } from "../../configs/env";
+import { buildVerificationEmailHtml } from "../../shared/infra/mail/templates/verification-email.template";
+import crypto from "crypto";
 
 export class UserService {
 
@@ -17,7 +20,7 @@ export class UserService {
 
     async findById(id: string): Promise<User> {
         const user = await this.userRepository.findById(id)
-        
+
         if (!user) {
             throw new createHttpError.BadRequest('User not found')
         }
@@ -36,36 +39,64 @@ export class UserService {
 
         const { password, ...userWithoutPassword } = await this.userRepository.create(user)
 
-        await this.mailProvider.sendEmail(user.email, "Welcome to TuneRank", "Welcome to TuneRank")
+        const token = crypto.randomBytes(32).toString("hex")
+        const expires = new Date(Date.now() + 1000 * 60 * 60 * 24) // 24h
+
+        await this.userRepository.setVerificationToken(userWithoutPassword.id, token, expires)
+
+        const verificationUrl = `${env.CLIENT_URL}/verify-email?token=${token}`
+
+        await this.mailProvider.sendEmail(
+            user.email,
+            "Confirme seu email – TuneRank",
+            buildVerificationEmailHtml(userWithoutPassword.name, verificationUrl)
+        )
 
         return userWithoutPassword
     }
 
-    async loginUser(user: LoginUserDtoType): Promise<User & { token: string }> {
-        const userExists = await this.userRepository.findByEmail(user.email)
+    async verifyEmail(token: string): Promise<void> {
+        const user = await this.userRepository.findByVerificationToken(token)
 
-        if (!userExists) {
-            throw new createHttpError.BadRequest('User not found')
+        if (!user) {
+            throw new createHttpError.BadRequest("Token de verificação inválido")
         }
 
-        const isPasswordValid = await this.hashProvider.compareHash(user.password, userExists.password)
-
-        if (!isPasswordValid) {
-            throw new createHttpError.BadRequest('Invalid password')
+        if (user.emailVerified) {
+            throw new createHttpError.BadRequest("Email já verificado")
         }
 
-        const token = await this.jwtProvider.generateAccessToken(userExists.id)
-
-
-
-        return {
-            id: userExists.id,
-            name: userExists.name,
-            email: userExists.email,
-            token,
-            createdAt: userExists.createdAt,
-            updatedAt: userExists.updatedAt,
+        const expires = (user as any).emailVerificationTokenExpires as Date | null
+        if (!expires || expires < new Date()) {
+            throw new createHttpError.BadRequest("Token de verificação expirado")
         }
+
+        await this.userRepository.markEmailAsVerified(user.id)
+    }
+
+    async resendVerificationEmail(email: string): Promise<void> {
+        const user = await this.userRepository.findByEmail(email)
+
+        if (!user) {
+            throw new createHttpError.NotFound("Usuário não encontrado")
+        }
+
+        if (user.emailVerified) {
+            throw new createHttpError.BadRequest("Email já verificado")
+        }
+
+        const token = crypto.randomBytes(32).toString("hex")
+        const expires = new Date(Date.now() + 1000 * 60 * 60 * 24) // 24h
+
+        await this.userRepository.setVerificationToken((user as any)._id?.toString() ?? user.id, token, expires)
+
+        const verificationUrl = `${env.CLIENT_URL}/verify-email?token=${token}`
+
+        await this.mailProvider.sendEmail(
+            email,
+            "Confirme seu email – TuneRank",
+            buildVerificationEmailHtml(user.name, verificationUrl)
+        )
     }
 
 }
